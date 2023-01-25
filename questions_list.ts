@@ -2,7 +2,7 @@ import * as readline from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 import { check } from "./check_input";
 
-interface Res {
+interface Iquestion {
     
         question: string,
         name: string,
@@ -11,7 +11,7 @@ interface Res {
 }
 
 
-export const questions:Array<Res> = [
+export const questions:Array<Iquestion> = [
     {
         question: "Enter your ID: ",
         name: "id: ",
@@ -79,15 +79,15 @@ async function run(){
     const rl = readline.createInterface({ input, output, terminal: false });
     const answers: Array<string> = [];
     
-    for (const query of questions) {
-        let answer = await rl.question(`${query.question}`).then((data) => check(query.type, data, query.length));
+    for (const question of questions) {
+        let answer = await rl.question(`${question.question}`).then((data) => check(question.type, data, question.length));
         while (!answer) {
             answer = await rl
-            .question(`${query.question}`)
-            .then((data) => check(query.type, data, query.length));
+            .question(`${question.question}`)
+            .then((data) => check(question.type, data, question.length));
         }
         
-        answers.push(query.name + answer + "  ");
+        answers.push(question.name + answer + "  ");
     }
     
     console.log( answers.toString())
