@@ -1,9 +1,4 @@
-import * as readline from "node:readline/promises";
-import { stdin as input, stdout as output } from "node:process";
-import { check } from "./check_input";
-
 interface Iquestion {
-    
         question: string,
         name: string,
         type: string,
@@ -74,23 +69,10 @@ export const questions:Array<Iquestion> = [
     },
 ];
 
-async function run(){
-    
-    const rl = readline.createInterface({ input, output, terminal: false });
-    const answers: Array<string> = [];
-    
+export function user_length():number{
+    let user_length:number = 0;
     for (const question of questions) {
-        let answer = await rl.question(`${question.question}`).then((data) => check(question.type, data, question.length));
-        while (!answer) {
-            answer = await rl
-            .question(`${question.question}`)
-            .then((data) => check(question.type, data, question.length));
-        }
-        
-        answers.push(question.name + answer + "  ");
+        user_length += question.name.length + 3;
     }
-    
-    console.log( answers.toString())
+    return user_length
 }
-
-run()
