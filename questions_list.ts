@@ -72,7 +72,7 @@ export const questions:Array<Iquestion> = [
 export function user_length():number{
     let user_length:number = 0;
     for (const question of questions) {
-        user_length += question.name.length + 3;
+        user_length += question.name.length + question.length+1;
     }
-    return user_length
+    return user_length-1
 }

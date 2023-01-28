@@ -1,12 +1,10 @@
 import * as readline from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
-import {read_the_id_file} from './Read_file';
-import{addUser}from './add_User';
+import{addUser, insert_to_map}from './add_User';
 import{searchUser}from './search_User';
 
 const map1 = new Map();
 
-let user_line:number = 0;
 
 
 
@@ -21,11 +19,11 @@ async function db_maneger() {
 
     switch (action) {
         case "add":
-            addUser(user_line, map1).then(() => {db_maneger(); })
+            addUser(map1).then(() => {db_maneger(); })
             break;
 
         case "search":
-            await searchUser(map1)
+            searchUser(map1).then(() => {db_maneger(); })
             break;
 
         case "delete":
@@ -45,11 +43,4 @@ async function db_maneger() {
 }
 
 
-
-
-read_the_id_file( user_line, map1,async function next(user_line:number,map1:Map<string,number>) {
-    if (map1 == undefined) {
-      console.log("The DB is ampty you the first one yaaa\n");
-    }   
-    db_maneger();
-})
+insert_to_map(map1).then(() => {db_maneger(); })
