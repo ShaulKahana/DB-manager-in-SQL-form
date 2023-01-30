@@ -1,10 +1,4 @@
-interface Iquestion {
-        question: string,
-        name: string,
-        type: string,
-        length: number,
-}
-
+import{Iquestion}from "./interfces"
 
 export const questions:Array<Iquestion> = [
     {

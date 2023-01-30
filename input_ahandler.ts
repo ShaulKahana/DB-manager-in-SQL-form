@@ -1,7 +1,13 @@
 import * as readline from "node:readline/promises";
-import { stdin as input, stdout as output } from "node:process";
-import{addUser, insert_to_map}from './add_User';
+import {stdin as input, stdout as output } from "node:process";
+import{addUser}from './add_User';
 import{searchUser}from './search_User';
+import{User_line}from "./interfces"
+import {insert_id_to_map} from './Read_file';
+
+let user_line:User_line = new User_line;
+
+
 
 const map1 = new Map();
 
@@ -19,7 +25,7 @@ async function db_maneger() {
 
     switch (action) {
         case "add":
-            addUser(map1).then(() => {db_maneger(); })
+            addUser(user_line,map1).then(() => {db_maneger(); })
             break;
 
         case "search":
@@ -43,4 +49,4 @@ async function db_maneger() {
 }
 
 
-insert_to_map(map1).then(() => {db_maneger(); })
+insert_id_to_map(user_line,map1).then(() => {db_maneger(); })

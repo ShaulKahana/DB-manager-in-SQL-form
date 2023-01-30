@@ -1,21 +1,21 @@
 import {createReadStream } from 'node:fs';
 import {open} from 'node:fs/promises';
+import{User_line}from "./interfces"
 
-async function read_the_id_file(user_line:number,map1:Map<string,number>,next:Function)
-{
+export async function insert_id_to_map(user_line:User_line,map1:Map<string,number>){
+
     const file =  await open("./id.txt");
 
     for await (const line of file.readLines()) {
       map1.set(line.split(" ")[0],Number(line.split(" ")[1]));
-      user_line ++
+      user_line.set()
     }
 
     await file.close();
-       
-    next(user_line,map1);
 }
 
-async function get_user_data(user_line: number| undefined, user_length:number){
+
+export async function get_user_data(user_line: number| undefined, user_length:number){
     let start_bayts:number = user_line? user_line*user_length+user_line : 0;
     let end_bayts:number = start_bayts+user_length
 
@@ -31,6 +31,3 @@ async function get_user_data(user_line: number| undefined, user_length:number){
 }
 
 
-export {
-    get_user_data,read_the_id_file
-};
