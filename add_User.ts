@@ -6,7 +6,7 @@ import {write_to_file, write_id_to_file} from './write_file';
 import{User_line}from "./interfces"
 
 
-export async function addUser(user_line:User_line,map1:Map<string,number>){
+export async function addUser(user_line:User_line,user_map:Map<string,number>){
     try {
         const rl = readline.createInterface({ input, output, terminal: false });
         const answers: Array<string> = [];
@@ -21,7 +21,7 @@ export async function addUser(user_line:User_line,map1:Map<string,number>){
             }
             if (question.name === "id: ") {
                 id = answer
-                if (map1.get(id)!== undefined) {
+                if (user_map.get(id)!== undefined) {
                     console.log("The user already exist in the DB");
                     return
                 }
@@ -31,7 +31,7 @@ export async function addUser(user_line:User_line,map1:Map<string,number>){
         
         let answersString = answers.toString()        
         write_id_to_file(id, user_line.get())
-        map1.set(id,user_line.get());
+        user_map.set(id,user_line.get());
         user_line.set();
         
         write_to_file(answersString).then(() => {

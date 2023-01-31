@@ -4,12 +4,12 @@ import{addUser}from './add_User';
 import{searchUser}from './search_User';
 import{User_line}from "./interfces"
 import {insert_id_to_map} from './Read_file';
+import {deleteUser} from './Delete_user';
+
 
 let user_line:User_line = new User_line;
 
-
-
-const map1 = new Map();
+const user_map = new Map();
 
 
 
@@ -25,15 +25,15 @@ async function db_maneger() {
 
     switch (action) {
         case "add":
-            addUser(user_line,map1).then(() => {db_maneger(); })
+            addUser(user_line,user_map).then(() => {db_maneger(); })
             break;
 
         case "search":
-            searchUser(map1).then(() => {db_maneger(); })
+            searchUser(user_map).then(() => {db_maneger(); })
             break;
 
         case "delete":
-           // await deleteUser( user_line)
+            deleteUser(user_map).then(() => {db_maneger(); })
             break;
 
         case "exit":
@@ -42,11 +42,11 @@ async function db_maneger() {
             process.exit()
 
         default:
-            console.error("Must choose or 'add' or 'search' or 'exit'!\n");
+            console.error("Must choose 'add' or 'search' or 'delete' or 'exit'!\n");
             db_maneger()
             break;
     }
 }
 
 
-insert_id_to_map(user_line,map1).then(() => {db_maneger(); })
+insert_id_to_map(user_line,user_map).then(() => {db_maneger(); })

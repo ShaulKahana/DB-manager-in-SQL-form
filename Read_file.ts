@@ -1,13 +1,13 @@
-import {createReadStream } from 'node:fs';
-import {open} from 'node:fs/promises';
+import {createReadStream, createWriteStream } from 'node:fs';
+import {open,appendFile} from 'node:fs/promises';
 import{User_line}from "./interfces"
 
-export async function insert_id_to_map(user_line:User_line,map1:Map<string,number>){
+export async function insert_id_to_map(user_line:User_line,user_map:Map<string,number>){
 
     const file =  await open("./id.txt");
 
     for await (const line of file.readLines()) {
-      map1.set(line.split(" ")[0],Number(line.split(" ")[1]));
+      user_map.set(line.split(" ")[0],Number(line.split(" ")[1]));
       user_line.set()
     }
 
@@ -28,6 +28,26 @@ export async function get_user_data(user_line: number| undefined, user_length:nu
             console.log(element);
         });
     });
+}
+
+
+export async function delete_user_from_file(id:string){
+
+    const createReader = createReadStream("./id.txt");   
+
+    createReader.on("data", (data) => {
+
+        let dataStr =  data.toString();
+        dataStr = dataStr.replace(id,"         ")
+
+        const createWriter = createWriteStream("./id.txt",{ start: 0 });
+  
+        createWriter.write("")
+
+        createWriter.close()
+
+        appendFile("./id.txt",dataStr)
+    });    
 }
 
 
