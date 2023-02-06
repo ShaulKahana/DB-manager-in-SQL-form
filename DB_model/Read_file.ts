@@ -1,6 +1,8 @@
 import {createReadStream, createWriteStream } from 'node:fs';
 import {open,appendFile} from 'node:fs/promises';
 import{User_line}from "../interfces"
+import { user_length, colem_length } from "../questions_list";
+
 
 export async function insert_id_to_map(user_line:User_line,user_map:Map<string,number>){
 
@@ -27,6 +29,36 @@ export function get_all_user_data(user_line: number | undefined, user_length:num
             res(dataStr)
         });
     })   
+}
+
+export async function find_users_by_colom(where_colem:string,where_value:string):Promise<Array<string> | undefined> {
+    try {
+
+        const file =  await open("./DB_model/db.txt");
+        let answer_array = colem_length(where_colem)
+        let start_bayts:number = answer_array[0];
+        let end_bayts:number = answer_array[1]
+        let indexs = 0
+        let return_array: Array<string> = [];
+    
+        for await (const line of file.readLines()) {
+    
+          if(line.slice(start_bayts,end_bayts).trim()=== where_value){
+
+              const data:string = await get_all_user_data(indexs,user_length())
+              return_array.push(data);
+          }
+          indexs++
+        }
+        await file.close();
+        
+        return new Promise(res => {
+            res(return_array)
+        }) 
+      }
+      catch (err) {
+          console.error(err);
+      }
 }
 
 

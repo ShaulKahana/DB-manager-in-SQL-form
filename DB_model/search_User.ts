@@ -1,4 +1,4 @@
-import {get_all_user_data} from './Read_file';
+import {get_all_user_data, find_users_by_colom} from './Read_file';
 import { user_length, colem_length } from "../questions_list";
 import {createReadStream, createWriteStream } from 'node:fs';
 import {open,appendFile} from 'node:fs/promises';
@@ -17,29 +17,35 @@ export async function searchUserByID (answer:string ,user_map:Map<string,number>
     }
 }
 
-export async function searchUserNotByID (where_colem:string,where_value:string){
+export async function searchUserNotByID (where_colem:string,where_value:string, colems: Array<string> | undefined = undefined){
   try {
+  
+    const data: Array<string> | undefined = await find_users_by_colom(where_colem,where_value)
+    
+    data?.forEach(element => {
 
-    const file =  await open("./DB_model/db.txt");
-    let answer_array = colem_length(where_colem)
-    let start_bayts:number = answer_array[0];
-    let end_bayts:number = answer_array[1]
-    let indexs = 0
+      let answer_split =  element.split(",");
 
-    for await (const line of file.readLines()) {
+      if (colems === undefined) {
 
-      if(line.slice(start_bayts,end_bayts).trim()=== where_value){
-          const data:string = await get_all_user_data(indexs,user_length())
-          let answer_split =  data.split(",");
+        answer_split.forEach(element => {
+          console.log(element);
+        });
 
-          answer_split.forEach(element => {
-            console.log(element);
-          });
-          console.log("\n\n\n")
       }
-      indexs++
-    }
-    await file.close();
+      else{
+
+        answer_split.forEach(element1 => {
+          let colem_name = element1.split(":")[0].trim()
+          if (colems.includes(colem_name)) {
+            console.log(element1);
+          }
+          
+        });
+
+      }
+      console.log("\n\n\n")
+    });        
   }
   catch (err) {
       console.error(err);

@@ -78,9 +78,9 @@ export async function insertUser(insert_string:string,user_line:User_line,user_m
 function cleer(input:string):Array<string>{
     input = input.slice(1,-1).trim()
     let input_array:Array<string> = input.split(",")
-    for (let index:number = 0; index < input_array.length; index++) {
-        input_array[index] = input_array[index].trim()
-    }
+    input_array = input_array.map(element => {
+        return element.trim();
+    });
     return input_array
 }
 
