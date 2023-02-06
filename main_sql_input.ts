@@ -2,7 +2,8 @@ import * as readline from "node:readline/promises";
 import {stdin as input, stdout as output } from "node:process";
 import{User_line}from "./interfces"
 import {insert_id_to_map} from './DB_model/Read_file';
-import {insertUser } from './user_IU/check_sql_form'
+import {insertUser } from './user_IU/check_sql_insert_form'
+import {selectUser } from './user_IU/check_sql_select_form'
 
 let user_line:User_line = new User_line;
 const user_map = new Map();
@@ -25,7 +26,7 @@ async function db_maneger() {
 
     switch (action) {
         case "select":
-            //add_user_input(user_line,user_map).then(() => {db_maneger(); })
+            selectUser(inputQ,user_map).then(() => {db_maneger(); })
             break;
 
         case "insert":

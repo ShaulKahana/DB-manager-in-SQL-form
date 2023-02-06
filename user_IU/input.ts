@@ -4,7 +4,7 @@ import { check } from "./check_input";
 import { questions } from "../questions_list";
 import{User_line}from "../interfces"
 import{addUser}from '../DB_model/add_User';
-import{searchUser}from '../DB_model/search_User';
+import{searchUserByID}from '../DB_model/search_User';
 import {deleteUser} from '../DB_model/Delete_user';
 
 
@@ -42,7 +42,7 @@ export async function search_user_input(user_map:Map<string,number>){
     if (check('id', answer, answer.length)) {
 
         if (user_map.get(answer)!== undefined) {       
-            searchUser(answer,user_map)
+            await searchUserByID(answer,user_map)
         }
         else{
             console.log("The user is not in the DB")

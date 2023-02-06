@@ -15,19 +15,18 @@ export async function insert_id_to_map(user_line:User_line,user_map:Map<string,n
 }
 
 
-export async function get_user_data(user_line: number| undefined, user_length:number){
+export function get_all_user_data(user_line: number | undefined, user_length:number):Promise<string>{
     let start_bayts:number = user_line? user_line*user_length+user_line : 0;
     let end_bayts:number = start_bayts+user_length
 
     const createReader = createReadStream("./DB_model/db.txt",{ start:  start_bayts, end:end_bayts });
-  
-    createReader.on("data", (data) => {
-        let dataStr =  data.toString().split('\n').join("");
-        let answer_split =  dataStr.split(",");
-        answer_split.forEach(element => {
-            console.log(element);
+    
+    return new Promise(res => {
+        createReader.on("data", (data) => {
+            let dataStr =  data.toString().split('\n').join("");
+            res(dataStr)
         });
-    });
+    })   
 }
 
 

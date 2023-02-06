@@ -15,10 +15,7 @@ async function db_maneger() {
     const rl = readline.createInterface({ input, output, terminal: false });
     let action:string ;
 
-    setTimeout((function printName()
-    {console.log("Hello and welcome, what would you like to do (add || search || exit || delete)? ")}),500)
-
-    action = await rl.question("");
+    action = await rl.question("Hello and welcome, what would you like to do (add || search || exit || delete)? ");
 
     switch (action) {
         case "add":
