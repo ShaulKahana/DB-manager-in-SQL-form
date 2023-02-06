@@ -34,7 +34,7 @@ export async function insertUser(insert_string:string,user_line:User_line,user_m
                 indexs ++
             }
             let answersString:string = answers.toString() 
-            addUser(answersString,id,user_line,user_map)
+            await addUser(answersString,id,user_line,user_map)
             //console.log(answersString);
 
         } else {
@@ -65,7 +65,7 @@ export async function insertUser(insert_string:string,user_line:User_line,user_m
                     }
                 }
                 let answersString:string = answers.toString() 
-                addUser(answersString,id,user_line,user_map)
+                await addUser(answersString,id,user_line,user_map)
             }else{
                 console.log("Most to insert a id")
             }

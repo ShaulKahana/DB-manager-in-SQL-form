@@ -1,8 +1,6 @@
 import {get_all_user_data, find_users_by_colom} from './Read_file';
-import { user_length, colem_length } from "../questions_list";
-import {createReadStream, createWriteStream } from 'node:fs';
-import {open,appendFile} from 'node:fs/promises';
-import{User_line}from "../interfces"
+import { user_length} from "../questions_list";
+
 
 export async function searchUserByID (answer:string ,user_map:Map<string,number>){
     try {

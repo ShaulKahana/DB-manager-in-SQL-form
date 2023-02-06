@@ -17,10 +17,7 @@ async function db_maneger() {
     let inputQ:string ;
     let action:string ;
 
-    setTimeout((function printName()
-    {console.log("Hello and welcome, enter your SQL query")}),500)
-
-    inputQ = await rl.question("");
+    inputQ = await rl.question("Hello and welcome, enter your SQL query\n");
 
     action = inputQ.trim().split(" ")[0].trim().toLowerCase()
 

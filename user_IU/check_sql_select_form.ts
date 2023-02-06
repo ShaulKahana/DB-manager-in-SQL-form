@@ -1,6 +1,3 @@
-import { check } from "./check_input";
-import { questions } from "../questions_list";
-import{User_line}from "../interfces"
 import{searchUserByID, searchUserNotByID}from '../DB_model/search_User';
 
 export async function selectUser(select_string:string,user_map:Map<string,number>){
@@ -21,14 +18,14 @@ export async function selectUser(select_string:string,user_map:Map<string,number
         if (colems[0].trim() === "*") {
 
             if (where_colem === "id") {
-                searchUserByID(where_value,user_map)
+                await searchUserByID(where_value,user_map)
             }
             else{
-                searchUserNotByID(where_colem,where_value)
+                await searchUserNotByID(where_colem,where_value)
             }   
         }
         else{
-            searchUserNotByID(where_colem,where_value,colems)
+            await searchUserNotByID(where_colem,where_value,colems)
         }
     }
 }
