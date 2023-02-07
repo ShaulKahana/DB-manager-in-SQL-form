@@ -1,7 +1,7 @@
 import * as readline from "node:readline/promises";
 import {stdin as input, stdout as output } from "node:process";
 import{User_line}from "./interfces"
-import {insert_id_to_map} from './DB_model/Read_file';
+import {create_id_indexs} from './DB_model/Read_file';
 import {insertUser } from './user_IU/check_sql_insert_form'
 import {selectUser } from './user_IU/check_sql_select_form'
 
@@ -14,20 +14,20 @@ const user_map = new Map();
 async function db_maneger() {
 
     const rl = readline.createInterface({ input, output, terminal: false });
-    let inputQ:string ;
+    let input_query:string ;
     let action:string ;
 
-    inputQ = await rl.question("Hello and welcome, enter your SQL query\n");
+    input_query = await rl.question("Hello and welcome, enter your SQL query\n");
 
-    action = inputQ.trim().split(" ")[0].trim().toLowerCase()
+    action = input_query.trim().split(" ")[0].trim().toLowerCase()
 
     switch (action) {
-        case "select":
-            selectUser(inputQ,user_map).then(() => {db_maneger(); })
+        case "insert":
+            insertUser(input_query,user_line,user_map).then(() => {db_maneger(); })
             break;
 
-        case "insert":
-            insertUser(inputQ,user_line,user_map).then(() => {db_maneger(); })
+        case "select":
+            selectUser(input_query,user_map).then(() => {db_maneger(); })
             break;
 
         case "delete":
@@ -47,4 +47,4 @@ async function db_maneger() {
 }
 
 
-insert_id_to_map(user_line,user_map).then(() => {db_maneger(); })
+create_id_indexs(user_line,user_map).then(() => {db_maneger(); })

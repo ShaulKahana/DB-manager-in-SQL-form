@@ -14,11 +14,11 @@ export async function add_user_input(user_line:User_line,user_map:Map<string,num
     let id:string = "";
     
     for (const question of questions) {
-        let answer = await rl.question(`${question.question}`).then((data) => check(question.type, data, question.length));
+        let answer = await rl.question(`${question.question}`).then((data) => check(question, data));
         while (!answer) {
             answer = await rl
             .question(`${question.question}`)
-            .then((data) => check(question.type, data, question.length));
+            .then((data) => check(question, data));
         }
         if (question.name === "id: ") {
             id = answer
@@ -39,7 +39,7 @@ export async function search_user_input(user_map:Map<string,number>){
     const rl = readline.createInterface({ input, output, terminal: false });
     const answer = await rl.question("Whats the id of the user your looking for ? ");
 
-    if (check('id', answer, answer.length)) {
+    if (check(questions[0], answer)) {
 
         if (user_map.get(answer)!== undefined) {       
             await searchUserByID(answer,user_map)
@@ -55,7 +55,7 @@ export async function delete_user_input(user_map:Map<string,number>){
     const rl = readline.createInterface({ input, output, terminal: false });
     const answer = await rl.question("What's the id of the user you want to delete? ");
 
-    if (check('id', answer, answer.length)) {
+    if (check(questions[0], answer)) {
 
         if (user_map.get(answer)) {
             deleteUser(answer,user_map)

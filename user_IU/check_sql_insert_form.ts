@@ -7,75 +7,100 @@ import{addUser}from '../DB_model/add_User';
 
 export async function insertUser(insert_string:string,user_line:User_line,user_map:Map<string,number>){
 
-    if(!insert_string.includes(" values ") || insert_string.slice(0,Math.min(insert_string.indexOf("("),insert_string.indexOf("values"))).trim().toUpperCase()!== "INSERT INTO FILE")
-        console.log("go to ell")
+    if(!insert_string.includes("values") || insert_string.trim().slice(0,17).trim().toLocaleLowerCase()!== "insert into file")
+        console.log("The query is not a SQL standard!")
     else{
+        
         insert_string = insert_string.trim().slice(17).trim()
         let insert_array:Array<string> = insert_string.split("values")
-        const answers: Array<string> = [];
-        let id:string = ""
+
+        if (brackets_check(insert_array[1].trim())) {return};
 
         if (insert_array[0].trim() == "") {
 
-            let values:Array<string> = cleer(insert_array[1].trim())
-            let indexs: number = 0
-            for (let v of values) {
-                let answer:string|void = check(questions[indexs].type, v, questions[indexs].length);
-                if (answer) {
-                    if (questions[indexs].name === "id: ") {
-                        id = answer
-                        if (user_map.get(id)!== undefined) {
-                            console.log("The user already exist in the DB");
-                            return
-                        }
-                    }
-                    answers.push(questions[indexs].name + answer.padEnd(questions[indexs].length));
-                }
-                indexs ++
-            }
-            let answersString:string = answers.toString() 
-            await addUser(answersString,id,user_line,user_map)
-            //console.log(answersString);
+            let answersString:Array<string>|undefined = []
+            answersString = only_values_check(insert_array[1],user_map)
+            if(answersString === undefined){return}
+            await addUser(answersString[1],answersString[0],user_line,user_map)
 
         } else {
-            let colomes:Array<string> = cleer(insert_array[0].trim())
-            let values:Array<string> = cleer(insert_array[1].trim())
-            if (colomes.includes("id")){
-                for (const question of questions) {
-                    let new_name:string = question.name.slice(0,question.name.length-2);
-                    if (colomes.includes(new_name)){
-                        let answer:string|void = check(question.type, values[colomes.indexOf(new_name)], question.length);
-                        if (answer) {
-                            if (question.name === "id: ") {
-                                id = answer
-                                if (user_map.get(id)!== undefined) {
-                                    console.log("The user already exist in the DB");
-                                    return
-                                }
-                            }
-                            answers.push(question.name + answer.padEnd(question.length));
-                        }
-                        else{
-                            return
-                        }
-                    }
-                    else{
-                        let answer = "";
-                         answers.push(question.name+answer.padEnd(question.length));
-                    }
-                }
-                let answersString:string = answers.toString() 
-                await addUser(answersString,id,user_line,user_map)
-            }else{
-                console.log("Most to insert a id")
-            }
-                 
+
+            if (brackets_check(insert_array[0].trim())) {return};
+
+            let answersString:Array<string>|undefined = colems_with_values_check(insert_array[0].trim(),insert_array[1].trim(), user_map)
+            if(answersString === undefined){return}
+            await addUser(answersString[1],answersString[0],user_line,user_map)
         }
     }
 }
 
+function only_values_check(values_string:string, user_map:Map<string,number>):Array<string> | undefined{
 
-function cleer(input:string):Array<string>{
+    const answers: Array<string> = [];
+    let id:string = ""
+    let return_array: Array<string> = []; 
+    let values:Array<string> = cleer_brackets(values_string.trim())
+    let indexs: number = 0
+
+    for (let v of values) {
+        let answer:string|void = check(questions[indexs], v);
+        if (answer) {
+            if (questions[indexs].name === "id: ") {
+                id = answer
+                if (user_exist(id, user_map)) { return undefined }
+                return_array.push(id)
+            }
+            answers.push(questions[indexs].name + answer.padEnd(questions[indexs].length));
+        }
+        else{return undefined}
+        indexs ++
+    }
+    return_array.push(answers.toString() )
+    return return_array
+}
+
+function colems_with_values_check(coloms_string:string,values_string:string, user_map:Map<string,number>):Array<string> | undefined{
+
+    const answers: Array<string> = [];
+    let id:string = ""
+    let return_array: Array<string> = []; 
+
+    let colomes:Array<string> = cleer_brackets(coloms_string.trim())
+
+    if (!colomes.includes("id")) {
+        console.log("most enter a id numbr!")
+        return undefined
+    }
+
+    if (coloms_check(colomes)) {return undefined}
+
+    let values:Array<string> = cleer_brackets(values_string.trim())
+
+    for (const question of questions) {
+        let new_name:string = question.name.slice(0,question.name.length-2);
+        if (colomes.includes(new_name)){
+            let answer:string|void = check(question, values[colomes.indexOf(new_name)]);
+            if (answer) {
+                if (question.name === "id: ") {
+                    id = answer
+                    if (user_exist(id, user_map)) { return undefined }
+                    return_array.push(id)
+                }
+                answers.push(question.name + answer.padEnd(question.length));
+            }
+            else{return undefined}
+        }
+        else{
+            let answer = "";
+                answers.push(question.name+answer.padEnd(question.length));
+        }
+    }
+    return_array.push(answers.toString() )
+    return return_array
+}
+
+
+function cleer_brackets(input:string):Array<string>{
     input = input.slice(1,-1).trim()
     let input_array:Array<string> = input.split(",")
     input_array = input_array.map(element => {
@@ -83,6 +108,38 @@ function cleer(input:string):Array<string>{
     });
     return input_array
 }
+
+function brackets_check(input:string):boolean{
+    if (!input.trim().startsWith("(") || !input.trim().endsWith(")")) {
+        console.log("The query is not a SQL standard!")
+        return true
+    }
+    return false
+}
+
+function user_exist(id:string, user_map:Map<string,number>):boolean{
+    if (user_map.get(id)!== undefined) {
+        console.log("The user already exist in the DB");
+        return true
+    }
+    return false
+}
+
+function coloms_check(input:Array<string>):boolean{
+    let fleg:boolean = false
+    let temp: Array<string> = []
+    for (const question of questions) {
+        temp.push(question.name.slice(0,question.name.length-2));
+    }
+    input.forEach(element => {
+        if (!temp.includes(element)) {
+            console.log(`There is no ${element} column in the table!`)
+            fleg =  true;
+        }
+    });
+    return fleg
+}
+
 
 
 let a = " insert into file   values ( 123456789  , yaki , klein, 43, israel, jerusalem, jontan, 22, Male, 3  )"

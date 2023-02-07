@@ -4,7 +4,7 @@ import{User_line}from "../interfces"
 import { user_length, colem_length } from "../questions_list";
 
 
-export async function insert_id_to_map(user_line:User_line,user_map:Map<string,number>){
+export async function create_id_indexs(user_line:User_line,user_map:Map<string,number>){
 
     const file =  await open("./DB_model/id.txt");
 

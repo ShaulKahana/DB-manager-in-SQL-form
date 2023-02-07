@@ -1,10 +1,13 @@
-const isTypeID = (value:string):string|void => {
+import{Iquestion}from "../interfces"
+
+
+const isTypeID = (value:string, question_name:string):string|void => {
     try {
         if (isNaN(Number(value))) {
-            return console.error("The answer must be of type 'number'");
+            return console.error(`The id must be of type 'number'`);
         }
-        if (value.length != 9) {
-            return console.error("The id number must be only 9 digit");
+        if (value.length !== 9) {
+            return console.error(`The id number must be only 9 digit`);
         }
         return value;
     }
@@ -13,10 +16,10 @@ const isTypeID = (value:string):string|void => {
     }
 };
 
-const isTypeGender = (value:string):string|void => {
+const isTypeGender = (value:string, question_name:string):string|void => {
     try {
-        if (value!="Male" && value!="Female") {
-            return console.error("The answer must be 'Male' or 'Female'");
+        if (value!=="Male" && value!=="Female") {
+            return console.error(`The ${question_name} must be 'Male' or 'Female'`);
         }
         return value;
     }
@@ -25,12 +28,12 @@ const isTypeGender = (value:string):string|void => {
     }
 };
 
-const isTypeNumber = (value:string, length:number):string|void => {
+const isTypeNumber = (value:string, length:number, question_name:string):string|void => {
     try {
         if (isNaN(Number(value))) {
-            return console.error("The answer must be of type 'number'");
+            return console.error(`The ${question_name} must be of type 'number'`);
         }
-        const newValue:string|void = checkLength(value, length);
+        const newValue:string|void = checkLength(value, length, question_name);
         if (newValue) {
             return newValue;
         }
@@ -40,12 +43,12 @@ const isTypeNumber = (value:string, length:number):string|void => {
     }
 };
 
-const isTypeString = (value:string, length:number):string|void => {
+const isTypeString = (value:string, length:number, question_name:string):string|void => {
     try {
         if(value.match(/([^A-Z])([^a-z ]+)/g) != null) {
-            return console.error("The answer must be of type 'string'");
+            return console.error(`The ${question_name} must be of type 'string'`);
         }
-        const newValue:string|void = checkLength(value, length);
+        const newValue:string|void = checkLength(value, length, question_name);
         if (newValue) {
             return newValue;
         }
@@ -56,26 +59,27 @@ const isTypeString = (value:string, length:number):string|void => {
 };
 
 
-const checkLength = (value:string, length:number):string|void => {    
+const checkLength = (value:string, length:number, question_name:string):string|void => {    
     if (!value) {
+        console.error(`The value of ${question_name} can't be empty!`);
         return;
     }
     if (value.length > length) {
-        console.error(`The value cant be more then ${length} CHARACTERS long!`);
+        console.error(`The value of ${question_name} cant be more then ${length} CHARACTERS long!`);
         return;
     }
     return value;
 };
 
-export const check = (type:string, value:string, length:number) => {
-    switch (type) {
+export const check = (question:Iquestion, value:string) => {
+    switch (question.type) {
         case "id":
-            return isTypeID(value);
+            return isTypeID(value, question.name);
         case "string":
-            return isTypeString(value, length);
+            return isTypeString(value, question.length, question.name);
         case "number":
-            return isTypeNumber(value, length);
+            return isTypeNumber(value, question.length, question.name);
         case "gender":
-            return isTypeGender(value);
+            return isTypeGender(value, question.name);
     }
 };
