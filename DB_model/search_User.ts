@@ -1,5 +1,5 @@
-import {get_all_user_data, find_users_by_colom} from './Read_file';
-import { user_length} from "../questions_list";
+import {get_all_user_data, find_users_by_colom} from './File Handler/Read_file';
+import { user_length} from "../user_IU/questions_list";
 
 
 export async function searchUserByID (answer:string ,user_map:Map<string,number>):Promise<void>{

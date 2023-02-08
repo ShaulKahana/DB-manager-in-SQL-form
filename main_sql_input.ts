@@ -1,7 +1,7 @@
 import * as readline from "node:readline/promises";
 import {stdin as input, stdout as output } from "node:process";
 import{User_line}from "./interfces"
-import {create_id_indexs} from './DB_model/Read_file';
+import {create_id_indexs} from './DB_model/File Handler/Read_file';
 import {insertUser } from './user_IU/check_sql_insert_form'
 import {selectUser } from './user_IU/check_sql_select_form'
 

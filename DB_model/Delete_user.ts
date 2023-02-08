@@ -1,4 +1,4 @@
-import { delete_user_from_file } from "./Read_file";
+import { delete_user_from_file } from "./File Handler/Read_file";
 
 
 export async function deleteUser (answer:string, user_map:Map<string,number>){

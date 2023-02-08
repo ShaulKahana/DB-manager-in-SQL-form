@@ -1,7 +1,7 @@
 import { stdin as input, stdout as output } from "node:process";
 import * as readline from "node:readline/promises";
 import { check } from "./check_input";
-import { questions } from "../questions_list";
+import { questions } from "./questions_list";
 import{User_line}from "../interfces"
 import{addUser}from '../DB_model/add_User';
 import{searchUserByID}from '../DB_model/search_User';
