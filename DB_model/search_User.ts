@@ -3,6 +3,7 @@ import { user_length} from "../user_IU/questions_list";
 
 
 export async function searchUserByID (answer:string ,user_map:Map<string,number>):Promise<void>{
+  
     try {
       const data:string = await get_all_user_data(user_map.get(answer),user_length())
       let answer_split =  data.split(",");
@@ -15,7 +16,9 @@ export async function searchUserByID (answer:string ,user_map:Map<string,number>
     }
 }
 
+
 export async function searchUserNotByID (where_colem:string,where_value:string, colems: Array<string> | undefined = undefined){
+
   try {
   
     const data: Array<string> | undefined = await find_users_by_colom(where_colem,where_value)

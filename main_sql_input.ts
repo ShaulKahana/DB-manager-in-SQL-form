@@ -12,12 +12,12 @@ let flag:boolean = true
 
 
 async function db_maneger():Promise<void> {
+    
     const rl:readline.Interface = readline.createInterface({ input, output, terminal: false });
+    let input_query:string ;
+    let action:string ;
 
     while(flag){
-
-        let input_query:string ;
-        let action:string ;
 
         input_query = await rl.question("Hello and welcome, enter your SQL query\n");
 
@@ -33,7 +33,7 @@ async function db_maneger():Promise<void> {
                 break;
 
             case "delete":
-                //delete_user_input(user_map).then(() => {db_maneger(); })
+                //delete_user_input(user_map
                 break;
 
             case "exit":

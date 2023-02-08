@@ -1,6 +1,6 @@
 import { stdin as input, stdout as output } from "node:process";
 import * as readline from "node:readline/promises";
-import { check } from "./check_input";
+import { check } from "./check_questions_ansers_input";
 import { questions } from "./questions_list";
 import{User_line}from "../interfces"
 import{addUser}from '../DB_model/add_User';
@@ -32,7 +32,7 @@ export async function add_user_input(user_line:User_line,user_map:Map<string,num
     
     let answersString = answers.toString() 
     rl.close();
-    addUser(answersString,id,user_line,user_map)
+    await addUser(answersString,id,user_line,user_map)
 }
 
 export async function search_user_input(user_map:Map<string,number>){
@@ -58,7 +58,7 @@ export async function delete_user_input(user_map:Map<string,number>){
     if (check(questions[0], answer)) {
 
         if (user_map.get(answer)) {
-            deleteUser(answer,user_map)
+            await deleteUser(answer,user_map)
         }
         else{
           console.log("The user is not in the DB")

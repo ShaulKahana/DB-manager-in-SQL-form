@@ -1,4 +1,4 @@
-import { check } from "./check_input";
+import { check } from "./check_questions_ansers_input";
 import { questions } from "./questions_list";
 import{User_line, user_exist}from "../interfces"
 import{addUser}from '../DB_model/add_User';

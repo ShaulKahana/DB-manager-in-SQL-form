@@ -1,7 +1,7 @@
 import{Iquestion}from "../interfces"
 
 
-const isTypeID = (value:string, question_name:string):string|void => {
+function isTypeID(value:string, question_name:string):string|void {
     try {
         if (isNaN(Number(value))) {
             return console.error(`The id must be of type 'number'`);
@@ -16,7 +16,7 @@ const isTypeID = (value:string, question_name:string):string|void => {
     }
 };
 
-const isTypeGender = (value:string, question_name:string):string|void => {
+function isTypeGender(value:string, question_name:string):string|void {
     try {
         if (value!=="Male" && value!=="Female") {
             return console.error(`The ${question_name} must be 'Male' or 'Female'`);
@@ -28,7 +28,7 @@ const isTypeGender = (value:string, question_name:string):string|void => {
     }
 };
 
-const isTypeNumber = (value:string, length:number, question_name:string):string|void => {
+function isTypeNumber(value:string, length:number, question_name:string):string|void {
     try {
         if (isNaN(Number(value))) {
             return console.error(`The ${question_name} must be of type 'number'`);
@@ -43,7 +43,7 @@ const isTypeNumber = (value:string, length:number, question_name:string):string|
     }
 };
 
-const isTypeString = (value:string, length:number, question_name:string):string|void => {
+function isTypeString(value:string, length:number, question_name:string):string|void {
     try {
         if(value.match(/([^A-Z])([^a-z ]+)/g) != null) {
             return console.error(`The ${question_name} must be of type 'string'`);
@@ -59,7 +59,7 @@ const isTypeString = (value:string, length:number, question_name:string):string|
 };
 
 
-const checkLength = (value:string, length:number, question_name:string):string|void => {    
+function checkLength(value:string, length:number, question_name:string):string|void {    
     if (!value) {
         console.error(`The value of ${question_name} can't be empty!`);
         return;
@@ -71,7 +71,9 @@ const checkLength = (value:string, length:number, question_name:string):string|v
     return value;
 };
 
-export const check = (question:Iquestion, value:string) => {
+
+
+export function check(question:Iquestion, value:string):string|void{
     switch (question.type) {
         case "id":
             return isTypeID(value, question.name);
