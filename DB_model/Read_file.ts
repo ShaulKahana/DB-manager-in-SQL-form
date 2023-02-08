@@ -36,6 +36,7 @@ export async function find_users_by_colom(where_colem:string,where_value:string)
 
         const file =  await open("./DB_model/db.txt");
         let answer_array = colem_length(where_colem)
+        if (answer_array === undefined) {return}
         let start_bayts:number = answer_array[0];
         let end_bayts:number = answer_array[1]
         let indexs = 0
@@ -44,7 +45,6 @@ export async function find_users_by_colom(where_colem:string,where_value:string)
         for await (const line of file.readLines()) {
     
           if(line.slice(start_bayts,end_bayts).trim()=== where_value){
-
               const data:string = await get_all_user_data(indexs,user_length())
               return_array.push(data);
           }

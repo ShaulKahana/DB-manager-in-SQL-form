@@ -19,8 +19,14 @@ export async function searchUserNotByID (where_colem:string,where_value:string, 
   try {
   
     const data: Array<string> | undefined = await find_users_by_colom(where_colem,where_value)
-    
-    data?.forEach(element => {
+
+    if(!data || data.length<1){
+      console.log("There are no suitable users for this query");
+      return
+    }
+
+   
+    data.forEach(element => {
 
       let answer_split =  element.split(",");
 

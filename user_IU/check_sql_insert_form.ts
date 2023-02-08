@@ -1,7 +1,6 @@
-
 import { check } from "./check_input";
 import { questions } from "../questions_list";
-import{User_line}from "../interfces"
+import{User_line, user_exist}from "../interfces"
 import{addUser}from '../DB_model/add_User';
 
 
@@ -47,7 +46,10 @@ function only_values_check(values_string:string, user_map:Map<string,number>):Ar
         if (answer) {
             if (questions[indexs].name === "id: ") {
                 id = answer
-                if (user_exist(id, user_map)) { return undefined }
+                if (user_exist(id, user_map)) {
+                    console.log(`The user with the id number ${id} already exist in the DB`);
+                     return undefined 
+                }
                 return_array.push(id)
             }
             answers.push(questions[indexs].name + answer.padEnd(questions[indexs].length));
@@ -83,7 +85,10 @@ function colems_with_values_check(coloms_string:string,values_string:string, use
             if (answer) {
                 if (question.name === "id: ") {
                     id = answer
-                    if (user_exist(id, user_map)) { return undefined }
+                    if (user_exist(id, user_map)) {
+                        console.log(`The user with the id number ${id} already exist in the DB`);
+                        return undefined 
+                    }
                     return_array.push(id)
                 }
                 answers.push(question.name + answer.padEnd(question.length));
@@ -117,15 +122,9 @@ function brackets_check(input:string):boolean{
     return false
 }
 
-function user_exist(id:string, user_map:Map<string,number>):boolean{
-    if (user_map.get(id)!== undefined) {
-        console.log("The user already exist in the DB");
-        return true
-    }
-    return false
-}
 
-function coloms_check(input:Array<string>):boolean{
+
+export function coloms_check(input:Array<string>):boolean{
     let fleg:boolean = false
     let temp: Array<string> = []
     for (const question of questions) {

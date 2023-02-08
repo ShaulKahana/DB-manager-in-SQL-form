@@ -72,9 +72,10 @@ export function user_length():number{
 }
 user_length()
 
-export function colem_length(colem_name:string):Array<number>{
+export function colem_length(colem_name:string):Array<number> | undefined{
     let user_length:number = 0;
     let return_array:Array<number> = [];
+    let fleg: boolean = true
 
     for (const question of questions) {
         let new_name:string = question.name.slice(0,question.name.length-2);
@@ -84,10 +85,15 @@ export function colem_length(colem_name:string):Array<number>{
         else{
             user_length += question.name.length;
             return_array.push(user_length)
-            user_length += question.length-1;
+            user_length += question.length;
             return_array.push(user_length)
+            fleg = false
             break
         }
     }
+    if(fleg){
+        console.log(`there isn't a colom wite the name ${colem_name} in the tabel`)
+        return undefined;
+    } 
     return  return_array
 }

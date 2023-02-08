@@ -18,3 +18,11 @@ export class User_line{
         this.user_line ++
     }
 }
+
+
+export function user_exist(id:string, user_map:Map<string,number>):boolean{
+    if (user_map.get(id)!== undefined) {
+        return true
+    }
+    return false
+}
