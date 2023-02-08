@@ -4,7 +4,7 @@ import{User_line, user_exist}from "../interfces"
 import{addUser}from '../DB_model/add_User';
 
 
-export async function insertUser(insert_string:string,user_line:User_line,user_map:Map<string,number>){
+export async function insertUser(insert_string:string,user_line:User_line,user_map:Map<string,number>):Promise<void>{
 
     if(!insert_string.includes("values") || insert_string.trim().slice(0,17).trim().toLocaleLowerCase()!== "insert into file")
         console.log("The query is not a SQL standard!")
@@ -80,8 +80,9 @@ function colems_with_values_check(coloms_string:string,values_string:string, use
 
     for (const question of questions) {
         let new_name:string = question.name.slice(0,question.name.length-2);
+        let answer:string|void;
         if (colomes.includes(new_name)){
-            let answer:string|void = check(question, values[colomes.indexOf(new_name)]);
+            answer = check(question, values[colomes.indexOf(new_name)]);
             if (answer) {
                 if (question.name === "id: ") {
                     id = answer
@@ -96,7 +97,7 @@ function colems_with_values_check(coloms_string:string,values_string:string, use
             else{return undefined}
         }
         else{
-            let answer = "";
+            answer = "";
                 answers.push(question.name+answer.padEnd(question.length));
         }
     }
@@ -143,4 +144,4 @@ export function coloms_check(input:Array<string>):boolean{
 
 let a = " insert into file   values ( 123456789  , yaki , klein, 43, israel, jerusalem, jontan, 22, Male, 3  )"
 let k = " INSERT INTO file    ( First name , id , Family name ) values (yaki , 123111119, klein ) "
-let r = "insert into file (id, first_name, last_name) values (1234, yaki, klein)"
+let r = "insert into file (id,  First name, Family name) values (123456846, yaki, klein)"

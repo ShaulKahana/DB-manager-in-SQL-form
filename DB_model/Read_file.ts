@@ -1,12 +1,12 @@
-import {createReadStream, createWriteStream } from 'node:fs';
-import {open,appendFile} from 'node:fs/promises';
+import {createReadStream, createWriteStream, WriteStream, ReadStream } from 'node:fs';
+import {open,appendFile, FileHandle} from 'node:fs/promises';
 import{User_line}from "../interfces"
 import { user_length, colem_length } from "../questions_list";
 
 
-export async function create_id_indexs(user_line:User_line,user_map:Map<string,number>){
+export async function create_id_indexs(user_line:User_line,user_map:Map<string,number>):Promise<void>{
 
-    const file =  await open("./DB_model/id.txt");
+    const file: FileHandle =  await open("./DB_model/id.txt");
 
     for await (const line of file.readLines()) {
       user_map.set(line.split(" ")[0],Number(line.split(" ")[1]));
@@ -21,7 +21,7 @@ export function get_all_user_data(user_line: number | undefined, user_length:num
     let start_bayts:number = user_line? user_line*user_length+user_line : 0;
     let end_bayts:number = start_bayts+user_length
 
-    const createReader = createReadStream("./DB_model/db.txt",{ start:  start_bayts, end:end_bayts });
+    const createReader: ReadStream = createReadStream("./DB_model/db.txt",{ start:  start_bayts, end:end_bayts });
     
     return new Promise(res => {
         createReader.on("data", (data) => {
@@ -34,12 +34,12 @@ export function get_all_user_data(user_line: number | undefined, user_length:num
 export async function find_users_by_colom(where_colem:string,where_value:string):Promise<Array<string> | undefined> {
     try {
 
-        const file =  await open("./DB_model/db.txt");
-        let answer_array = colem_length(where_colem)
+        const file: FileHandle =  await open("./DB_model/db.txt");
+        let answer_array: Array<number> | undefined = colem_length(where_colem)
         if (answer_array === undefined) {return}
         let start_bayts:number = answer_array[0];
         let end_bayts:number = answer_array[1]
-        let indexs = 0
+        let indexs:number = 0
         let return_array: Array<string> = [];
     
         for await (const line of file.readLines()) {
@@ -64,14 +64,14 @@ export async function find_users_by_colom(where_colem:string,where_value:string)
 
 export async function delete_user_from_file(id:string){
 
-    const createReader = createReadStream("./DB_model/id.txt");   
+    const createReader: ReadStream = createReadStream("./DB_model/id.txt");   
 
     createReader.on("data", (data) => {
 
-        let dataStr =  data.toString();
+        let dataStr:string =  data.toString();
         dataStr = dataStr.replace(id,"         ")
 
-        const createWriter = createWriteStream("./DB_model/id.txt",{ start: 0 });
+        const createWriter: WriteStream = createWriteStream("./DB_model/id.txt",{ start: 0 });
   
         createWriter.write("")
 
