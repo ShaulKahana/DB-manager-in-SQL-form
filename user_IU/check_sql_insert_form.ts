@@ -78,6 +78,11 @@ function colems_with_values_check(coloms_string:string,values_string:string, use
 
     let values:Array<string> = cleer_brackets(values_string.trim())
 
+    if (colomes.length !== values.length) {
+        console.log("the colomes and values are not the same length")
+        return undefined}
+
+
     for (const question of questions) {
         let new_name:string = question.name.slice(0,question.name.length-2);
         let answer:string|void;
