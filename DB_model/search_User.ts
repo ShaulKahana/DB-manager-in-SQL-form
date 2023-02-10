@@ -3,18 +3,36 @@ import { user_length} from "../user_IU/questions_list";
 import{ user_exist}from "../interfces"
 
 
-export async function searchUserByID (answer:string ,user_map:Map<string,number>):Promise<void>{
+export async function searchUserByID (answer:string ,user_map:Map<string,number>):Promise<string | void>{
   
     try {
       const data:string = await get_all_user_data(user_map.get(answer),user_length())
-      let answer_split =  data.split(",");
-      answer_split.forEach(element => {
-        console.log(element);
-      });
+      await print_data(data)
+
+      return new Promise(res => {
+            res(data)        
+      })   
+
     }
     catch (err) {
         console.error(err);
     }
+}
+
+async function print_data(data:string):Promise<void>{
+
+  try {
+
+    let answer_split =  data.split(",");
+    answer_split.forEach(element => {
+      console.log(element);
+    });
+
+  }
+  catch (err) {
+      console.error(err);
+  }
+
 }
 
 
