@@ -23,6 +23,7 @@ export async function searchUserNotByID (where_colem:string,where_value:string, 
   try {
   
     const data: Array<string> | undefined = await find_users_by_colom(where_colem,where_value)
+    let fleg:boolean = true
 
     if(!data || data.length<1){
       console.log("There are no suitable users for this query");
@@ -33,6 +34,8 @@ export async function searchUserNotByID (where_colem:string,where_value:string, 
       let id = element.slice(4,13)
 
       if (user_exist(id, user_map)){
+
+        fleg = false;
 
         let answer_split =  element.split(",");
 
@@ -56,6 +59,13 @@ export async function searchUserNotByID (where_colem:string,where_value:string, 
         console.log("\n\n\n")
       }
     });
+
+    if(fleg){
+      console.log("There are no suitable users for this query");
+      return
+    }
+
+
   }
   catch (err) {
       console.error(err);
