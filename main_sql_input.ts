@@ -4,6 +4,8 @@ import{User_line}from "./interfces"
 import {create_id_indexs} from './DB_model/File Handler/Read_file';
 import {insertUser } from './user_IU/check_sql_insert_form'
 import {selectUser } from './user_IU/check_sql_select_form'
+import {delete_User } from './user_IU/chack_sql_delete_from'
+
 
 let user_line:User_line = new User_line;
 const user_map:Map<string,number> = new Map();
@@ -12,7 +14,7 @@ let flag:boolean = true
 
 
 async function db_maneger():Promise<void> {
-    
+
     const rl:readline.Interface = readline.createInterface({ input, output, terminal: false });
     let input_query:string ;
     let action:string ;
@@ -33,7 +35,7 @@ async function db_maneger():Promise<void> {
                 break;
 
             case "delete":
-                //delete_user_input(user_map
+                await delete_User(input_query,user_map)
                 break;
 
             case "exit":

@@ -68,7 +68,7 @@ export function user_length():number{
     for (const question of questions) {
         user_length += question.name.length + question.length+1;
     }
-    return user_length
+    return user_length-1
 }
 user_length()
 

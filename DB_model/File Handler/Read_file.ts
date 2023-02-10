@@ -18,7 +18,7 @@ export async function create_id_indexs(user_line:User_line,user_map:Map<string,n
 
 
 export function get_all_user_data(user_line: number | undefined, user_length:number):Promise<string>{
-    let start_bayts:number = user_line? user_line*user_length+user_line : 0;
+    let start_bayts:number = user_line? user_line*user_length+user_line*2 : 0;
     let end_bayts:number = start_bayts+user_length
 
     const createReader: ReadStream = createReadStream("./DB_model/DB/db.txt",{ start:  start_bayts, end:end_bayts });

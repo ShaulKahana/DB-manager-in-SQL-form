@@ -28,12 +28,12 @@ export async function selectUser(select_string:string,user_map:Map<string,number
                 await searchUserByID(where_value,user_map)
             }
             else{
-                await searchUserNotByID(where_colem,where_value)
+                await searchUserNotByID(where_colem,where_value,user_map)
             }   
         }
         else{
             if (coloms_check(colems)) {return}
-            await searchUserNotByID(where_colem,where_value,colems)
+            await searchUserNotByID(where_colem,where_value, user_map,colems)
         }
     }
 }
