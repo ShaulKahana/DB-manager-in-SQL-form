@@ -5,8 +5,9 @@ import{deleteUser}from '../DB_model/Delete_user';
 
 export async function delete_User(delete_string:string,user_map:Map<string,number>):Promise<void>{
 
+    delete_string = delete_string.toLocaleLowerCase()
 
-    if(delete_string.trim().slice(0,22).trim().toLocaleLowerCase()!== "delete from file where")
+    if(delete_string.trim().slice(0,22).trim()!== "delete from file where")
         console.log("The query is not a SQL standard!")
     else{
 

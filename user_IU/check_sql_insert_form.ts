@@ -6,7 +6,9 @@ import{addUser}from '../DB_model/add_User';
 
 export async function insertUser(insert_string:string,user_line:User_line,user_map:Map<string,number>):Promise<void>{
 
-    if(!insert_string.includes("values") || insert_string.trim().slice(0,17).trim().toLocaleLowerCase()!== "insert into file")
+    insert_string = insert_string.toLocaleLowerCase()
+
+    if(!insert_string.includes("values") || insert_string.trim().slice(0,17).trim()!== "insert into file")
         console.log("The query is not a SQL standard!")
     else{
         
