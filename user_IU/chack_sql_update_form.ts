@@ -14,10 +14,14 @@ export async function apdateUser(apdate_string:string,user_line:User_line,user_m
     else{
 
         apdate_string = apdate_string.trim().slice(15).trim()
-        let insert_array:Array<string> = apdate_string.split("where" || "WHERE")
+        let update_array:Array<string> = apdate_string.split("where")
+        if(update_array[1] === undefined)
+        {
+            update_array = apdate_string.split("VALUES")
+        }
 
-        let where_colem:string = insert_array[1].split("=")[0].trim()
-        let where_value:string = insert_array[1].split("=")[1].trim()
+        let where_colem:string = update_array[1].split("=")[0].trim()
+        let where_value:string = update_array[1].split("=")[1].trim()
 
         if (where_colem === "id") {
             if (!user_exist(where_value, user_map)) {
@@ -33,7 +37,7 @@ export async function apdateUser(apdate_string:string,user_line:User_line,user_m
 
             if(user_data_string){answer_split =  user_data_string?.split(",");}
 
-            let colem_and_values:Array<string> = insert_array[0].split(",")
+            let colem_and_values:Array<string> = update_array[0].split(",")
             const answers: Array<string> = [];
 
             let colomes:Array<string> = []
