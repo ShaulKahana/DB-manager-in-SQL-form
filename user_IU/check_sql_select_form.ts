@@ -5,20 +5,20 @@ import {coloms_check} from './check_sql_insert_form'
 
 export async function selectUser(select_string:string,user_map:Map<string,number>):Promise<void>{
 
-    select_string = select_string.toLocaleLowerCase()
+    let select_string1 = select_string.toLocaleLowerCase()
 
-    if(!select_string.includes("=") ||  select_string.slice(select_string.indexOf("from"),select_string.indexOf("where")+5).trim()!== "from file where")
+    if(!select_string1.includes("=") ||  select_string1.slice(select_string1.indexOf("from"),select_string1.indexOf("where")+5).trim()!== "from file where")
         console.log("The query is not a SQL standard!")
     else{
 
-        let colems:Array<string> = select_string.slice(select_string.indexOf("select")+7,select_string.indexOf("from")).split(",")
+        let colems:Array<string> = select_string.slice(select_string1.indexOf("select")+7,select_string1.indexOf("from")).split(",")
 
         colems = colems.map(element => {
             return element.trim();
         });
 
-        let where_colem:string = select_string.slice(select_string.indexOf("where")+6,select_string.length).split("=")[0].trim()
-        let where_value:string = select_string.slice(select_string.indexOf("where")+6,select_string.length).split("=")[1].trim()
+        let where_colem:string = select_string.slice(select_string1.indexOf("where")+6,select_string1.length).split("=")[0].trim()
+        let where_value:string = select_string.slice(select_string1.indexOf("where")+6,select_string1.length).split("=")[1].trim()
 
         if (colems[0].trim() === "*" && colems.length<2) {
 

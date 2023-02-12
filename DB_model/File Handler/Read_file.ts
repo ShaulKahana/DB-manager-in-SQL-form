@@ -1,6 +1,6 @@
 import {createReadStream, createWriteStream, WriteStream, ReadStream } from 'node:fs';
 import {open,appendFile, FileHandle} from 'node:fs/promises';
-import{User_line}from "../../interfces"
+import{User_line,user_exist}from "../../interfces"
 import { user_length, colem_length } from "../../user_IU/questions_list";
 
 
@@ -31,7 +31,7 @@ export function get_all_user_data(user_line: number | undefined, user_length:num
     })   
 }
 
-export async function find_users_by_colom(where_colem:string,where_value:string):Promise<Array<string> | undefined> {
+export async function find_users_by_colom(where_colem:string,where_value:string, user_map:Map<string,number>):Promise<Array<string> | undefined> {
     try {
 
         const file: FileHandle =  await open("./DB_model/DB/db.txt");
@@ -39,16 +39,21 @@ export async function find_users_by_colom(where_colem:string,where_value:string)
         if (answer_array === undefined) {return}
         let start_bayts:number = answer_array[0];
         let end_bayts:number = answer_array[1]
-        let indexs:number = 0
+        let index:number = 0
         let return_array: Array<string> = [];
     
         for await (const line of file.readLines()) {
+
+            let id = line.slice(4,13)
+      
+            if (user_exist(id, user_map) && user_map.get(id) === index){
     
-          if(line.slice(start_bayts,end_bayts).trim()=== where_value){
-              const data:string = await get_all_user_data(indexs,user_length())
-              return_array.push(data);
-          }
-          indexs++
+                if(line.slice(start_bayts,end_bayts).trim()=== where_value){
+                    const data:string = await get_all_user_data(index,user_length())
+                    return_array.push(data);
+                }
+            }
+          index++
         }
         await file.close();
         

@@ -50,7 +50,7 @@ export const questions:Array<Iquestion> = [
         length: 3,
     },
     {
-        question: "Enter your Gender(Male/Female): ",
+        question: "Enter your Gender(male/female): ",
         name: "Gender: ",
         type: "gender",
         length: 6,

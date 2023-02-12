@@ -18,7 +18,7 @@ function isTypeID(value:string, question_name:string):string|void {
 
 function isTypeGender(value:string, question_name:string):string|void {
     try {
-        if (value!=="Male" && value!=="Female") {
+        if (value!=="male" && value!=="female") {
             return console.error(`The ${question_name} must be 'Male' or 'Female'`);
         }
         return value;

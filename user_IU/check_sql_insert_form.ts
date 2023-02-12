@@ -6,14 +6,17 @@ import{addUser}from '../DB_model/add_User';
 
 export async function insertUser(insert_string:string,user_line:User_line,user_map:Map<string,number>):Promise<void>{
 
-    insert_string = insert_string.toLocaleLowerCase()
-
-    if(!insert_string.includes("values") || insert_string.trim().slice(0,17).trim()!== "insert into file")
+    if(!insert_string.toLocaleLowerCase().includes("values") || insert_string.trim().slice(0,17).trim().toLocaleLowerCase()!== "insert into file")
         console.log("The query is not a SQL standard!")
     else{
         
         insert_string = insert_string.trim().slice(17).trim()
+
         let insert_array:Array<string> = insert_string.split("values")
+        if(insert_array[1] === undefined)
+        {
+            insert_array = insert_string.split("VALUES")
+        }
 
         if (brackets_check(insert_array[1].trim())) {return};
 

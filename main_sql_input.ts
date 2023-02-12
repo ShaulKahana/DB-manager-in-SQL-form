@@ -4,7 +4,8 @@ import{User_line}from "./interfces"
 import {create_id_indexs} from './DB_model/File Handler/Read_file';
 import {insertUser } from './user_IU/check_sql_insert_form'
 import {selectUser } from './user_IU/check_sql_select_form'
-import {delete_User } from './user_IU/chack_sql_delete_from'
+import {delete_User } from './user_IU/chack_sql_delete_form'
+import {apdateUser } from './user_IU/chack_sql_update_form'
 
 
 let user_line:User_line = new User_line;
@@ -38,6 +39,10 @@ async function db_maneger():Promise<void> {
                 await delete_User(input_query,user_map)
                 break;
 
+            case "update":
+                await apdateUser(input_query,user_line,user_map)
+                break;
+    
             case "exit":
                 console.log("Have a good day");
                 rl.close();
